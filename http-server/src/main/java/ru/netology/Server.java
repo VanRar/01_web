@@ -7,14 +7,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-    private static final int PORT = 8888;
-    private static final int NUMBER_OF_THREADS = 64;
 
-    public Server() {
-        try (final ServerSocket serverSocket = new ServerSocket(PORT)){
-            final ExecutorService threadPool = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-            while (true){
+    public Server(int port, int numberOfThreads) {
 
+        try (final ServerSocket serverSocket = new ServerSocket(port)) {
+            final ExecutorService threadPool = Executors.newFixedThreadPool(numberOfThreads);
+            while (true) {
                 final Socket socket = serverSocket.accept();
                 threadPool.submit(new SocketThread(socket));
             }
@@ -22,6 +20,5 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
