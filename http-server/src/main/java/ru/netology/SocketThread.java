@@ -34,6 +34,7 @@ public class SocketThread implements Runnable {
             }
 
             final var path = parts[1];
+            System.out.println(path);
             if (!validPaths.contains(path)) {
                 out.write((
                         "HTTP/1.1 404 Not Found\r\n" +
@@ -45,7 +46,17 @@ public class SocketThread implements Runnable {
                 return;
             }
 
-            final var filePath = Path.of(".", "public", path);
+            //final var filePath = Path.of(".", "public", path);
+            //исправляем путь, почему-то стал не совсем корректно работать
+            final var filePath = Path.of("http-server", "public", path);
+
+            //System.out.println(filePath);
+            //E:\netology\jspr-code-master\01_web\http-server\public
+            //http-server/public/spring.svg
+            //public/classic.html
+            // а выводит:
+            // src\public\spring.svg
+
             final var mimeType = Files.probeContentType(filePath);
 
             // special case for classic
